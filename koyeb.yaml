@@ -1,0 +1,25 @@
+
+# Koyeb App Configuration
+# For more information, visit https://www.koyeb.com/docs/deploy/koyeb-app-configuration
+
+app_name: web-hospedagem-bot
+
+services:
+  - name: telegram-bot
+    environment:
+      - key: TELEGRAM_BOT_TOKEN
+        scope: secret
+      - key: NETLIFY_AUTH_TOKEN
+        scope: secret
+      - key: WEBHOOK_URL
+        value: "@{{ .KoyebAppURL }}"
+    ports:
+      - port: 8000
+        protocol: http
+    routes:
+      - path: /
+        port: 8000
+    build:
+      builder: python
+      build_command: pip install -r requirements.txt
+      run_command: python bot.py
